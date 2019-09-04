@@ -2,13 +2,17 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
     id("org.jetbrains.kotlin.jvm").version("1.3.41")
+    id("java")
+    id("maven-publish")
 }
 
 version = "1.0.4"
-group = "org.hashids"
+group = "com.github.mnowak32"
 description = "Kotlin implementation of Hashids https://hashids.org"
 
 repositories {
+    mavenLocal()
+    mavenCentral()
     jcenter()
 }
 
@@ -37,5 +41,13 @@ tasks.withType<Jar> {
                 "Implementation-Version" to project.version,
                 "Implementation-Title" to project.description
         ))
+    }
+}
+
+publishing {
+    publications {
+        create<MavenPublication>("jarArtifact") {
+            from(components["java"])
+        }
     }
 }
